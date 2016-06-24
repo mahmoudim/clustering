@@ -8,7 +8,7 @@
 #ifndef CLUSTERROTATE_H_
 #define CLUSTERROTATE_H_
 
-#include <Eigen/Core>
+#include <eigen3/Eigen/Core>
 #include <vector>
 
 #include "Evrot.h"

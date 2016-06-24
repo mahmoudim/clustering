@@ -12,7 +12,8 @@
 #define SPECTRALCLUSTERING_H_
 
 #include <vector>
-#include <Eigen/Core>
+#include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Eigenvalues>
 
 class SpectralClustering {
 public:

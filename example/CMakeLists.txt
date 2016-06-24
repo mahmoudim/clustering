@@ -3,8 +3,8 @@ project (clustering)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}")
 
-find_package(Eigen2 REQUIRED)
-include_directories(${Eigen2_INCLUDE_DIR})
+find_package(Eigen3 REQUIRED)
+include_directories(${Eigen3_INCLUDE_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/../lib)
 

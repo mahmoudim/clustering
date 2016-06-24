@@ -2,7 +2,8 @@
 #include <algorithm>
 #include <iterator>
 #include <cmath>
-#include <Eigen/Core>
+#include <iostream>
+#include <eigen3/Eigen/Core>
 #include "SpectralClustering.h"
 
 int main() {

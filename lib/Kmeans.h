@@ -8,9 +8,10 @@
 #ifndef KMEANS_H_
 #define KMEANS_H_
 
-#include <Eigen/Core>
-#include <Eigen/Array>
+#include <eigen3/Eigen/Core>
+//#include <eigen3/Eigen/Array>
 #include <vector>
+#include <iostream>
 
 class Kmeans {
 public:
