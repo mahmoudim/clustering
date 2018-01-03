@@ -17,7 +17,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include <eigen3/Eigen/Core>
+#include <Eigen/Core>
 //#include <eigen3/Eigen/Array>
 
 #define DEBUG 0    // set to 1 to see print outs

@@ -8,7 +8,7 @@
 #ifndef KMEANS_H_
 #define KMEANS_H_
 
-#include <eigen3/Eigen/Core>
+#include <Eigen/Core>
 //#include <eigen3/Eigen/Array>
 #include <vector>
 #include <iostream>

@@ -9,7 +9,7 @@
 #include "ClusterRotate.h"
 #include "Kmeans.h"
 
-#include <eigen3/Eigen/QR>
+#include <Eigen/QR>
 
 /**
 * Performs eigenvector decomposition of an affinity matrix
