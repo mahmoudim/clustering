@@ -8,6 +8,8 @@
 #include "SpectralClustering.h"
 #include "ClusterRotate.h"
 #include "Kmeans.h"
+#include <MatOp/SparseSymMatProd.h>
+#include<SymEigsSolver.h>
 
 #include <Eigen/QR>
 
@@ -17,25 +19,32 @@
 * @param data 		the affinity matrix
 * @param numDims	the number of dimensions to consider when clustering
 */
-SpectralClustering::SpectralClustering(Eigen::MatrixXd& data, int numDims):
+SpectralClustering::SpectralClustering(Eigen::SparseMatrix<double>& data, int numDims):
 	mNumDims(numDims),
 	mNumClusters(0)
 {
-	Eigen::MatrixXd Deg = Eigen::MatrixXd::Zero(data.rows(),data.cols());
+	Eigen::SparseMatrix<double> Deg = Eigen::SparseMatrix<double>(data.rows(),data.cols());
 
 	// calc normalised laplacian 
 	for ( int i=0; i < data.cols(); i++) {
-		Deg(i,i)=1/(sqrt((data.row(i).sum())) );
+		Deg.insert(i,i)=1/(sqrt((data.row(i).sum())) );
 	}
-	Eigen::MatrixXd Lapla = Deg * data * Deg;
+	Eigen::SparseMatrix<double> Lapla = Deg * data * Deg;
 
-	Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> s(Lapla, true);
-	Eigen::VectorXd val = s.eigenvalues();
-	Eigen::MatrixXd vec = s.eigenvectors();
-
+	//Eigen::SelfAdjointEigenSolver<Eigen::SparseMatrix<double>> *s= new Eigen::SelfAdjointEigenSolver<Eigen::SparseMatrix<double>>(Lapla, numDims);
+	//RedSVD::RedSymEigen<Eigen::SparseMatrix<double>> *s=new RedSVD::RedSymEigen<Eigen::SparseMatrix<double>>(Lapla, numDims);
+	Spectra::SparseSymMatProd<double> op(Lapla);
+	Spectra::SymEigsSolver<double, Spectra::LARGEST_MAGN, Spectra::SparseSymMatProd<double>> solve(&op, numDims, 2 * numDims + 2);
+	solve.init();
+	int ss = solve.compute();
+	if (solve.info() != Spectra::SUCCESSFUL)
+		return;
+	Eigen::VectorXd val = solve.eigenvalues();// s->eigenvalues();
+	Eigen::MatrixXd vec = solve.eigenvectors();
+	//printf(" ok ");
 	//sort eigenvalues/vectors
-	int n = data.cols();
-	for (int i = 0; i < n - 1; ++i) {
+	int n = numDims;
+	for (int i = 0; i < n-1 ; ++i) {
 		int k;
 		val.segment(i, n - i).maxCoeff(&k);
 		if (k > 0) {
